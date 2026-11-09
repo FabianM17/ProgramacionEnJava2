@@ -11,6 +11,7 @@ import parcial2correccion.model.Departamento;
 import parcial2correccion.model.Empleado;
 import parcial2correccion.model.ProfesorCatedra;
 import parcial2correccion.model.ProfesorPlanta;
+import parcial2correccion.view.View;
 import parcial2correccion.view.Vista;
 
 /**
@@ -22,6 +23,7 @@ public class Controlador {
     private IDepartamentoDao departamentoDao;
     private IEmpleadoDao empleadoDao;
     private Vista vista;
+    private View vistaInterfaz;
 
     public void iniciar() {
         int indice = 0;
@@ -51,13 +53,16 @@ public class Controlador {
 
     }
     
+    public void registrarBoton(){
+        vistaInterfaz.getBotonDepartamento().addActionListener(e->registrarDepartamento());
+    } 
+    
     public void registrarDepartamento(){
-        String nombre=vista.pedirTexto("Ingrese el nombre del departamento");
-        String cod=vista.pedirTexto("Ingrese el codigo del departamento");
+        String nombre=vistaInterfaz.getDepartamentoNombreTextField();
+        String cod=vistaInterfaz.getDepartamentoCodigoTextField();
         Departamento d=new Departamento(cod, nombre);
         for (Departamento de:departamentoDao.mostrarTodo()){
             if(de.getCodigo().equals(d.getCodigo())){
-                vista.mostrarMensaje("Ya hay un departamento registrado con ese codigo.");
                 return;
             }
         }
